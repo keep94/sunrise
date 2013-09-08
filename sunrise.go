@@ -1,3 +1,8 @@
+// Copyright 2013 Travis Keep. All rights reserved.
+// Use of this source code is governed by a BSD-style
+// license that can be found in the LICENSE file or
+// at http://opensource.org/licenses/BSD-3-Clause.
+
 // Package sunrise computes sunrises and sunsets using wikipedia article
 // http://en.wikipedia.org/wiki/Sunrise_equation. Testing at my
 // latitude and longitude in California shows that computed sunrises and
