@@ -3,6 +3,9 @@ sunrise
 
 Calculates sunrise and sunset times
 
+This is a draft API and should be treated as such. It may change in
+incompatible ways.
+
 ## Using
 
 	import "github.com/keep94/sunrise"
