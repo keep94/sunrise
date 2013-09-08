@@ -34,7 +34,8 @@ type Sunrise struct {
 // around currentTime. The computed sunrise will be no earlier than 24
 // hours before currentTime and the computed sunset will be no later than
 // 24 hours after currentTime. The computed sunset is no more than 24 hours
-// after the current sunrise.
+// after the current sunrise. The latitude is positive for north and negative
+// for south. Longitude is positive for east and negative for west.
 func (s *Sunrise) Around(latitude, longitude float64, currentTime time.Time) {
   s.location = currentTime.Location()
   s.sinLat = sin(latitude)
@@ -44,20 +45,22 @@ func (s *Sunrise) Around(latitude, longitude float64, currentTime time.Time) {
   s.computeSolarNoonHourAngle()
 }
 
-// Skip computes the sunrise and sunset a set number of days after
-// (or before if argument is negative) the current sunrise and sunset at the
+// AddDays computes the sunrise and sunset numDays after
+// (or before if numDays is negative) the current sunrise and sunset at the
 // same latitude and longitude.
-func (s *Sunrise) Skip(days int) {
-  s.jstar += float64(days)
+func (s *Sunrise) AddDays(numDays int) {
+  s.jstar += float64(numDays)
   s.computeSolarNoonHourAngle()
 }
 
-// Sunrise returns the current computed sunrise.
+// Sunrise returns the current computed sunrise. Returned sunrise has the same
+// location as the time passed to Around.
 func (s *Sunrise) Sunrise() time.Time {
   return goTime(s.solarNoon - s.hourAngleInDays, s.location)
 }
 
-// Sunset returns the current computed sunset.
+// Sunset returns the current computed sunset. Returned sunset has the same
+// location as the time passed to Around.
 func (s *Sunrise) Sunset() time.Time {
   return goTime(s.solarNoon + s.hourAngleInDays, s.location)
 }
@@ -77,11 +80,7 @@ func julianDay(unix int64) float64 {
 
 func goTime(julianDay float64, loc *time.Location) time.Time {
   unix := uepoch + int64((julianDay - jepoch) * 86400.0)
-  result := time.Unix(unix, 0)
-  if result.Location() == loc {
-    return result
-  }
-  return result.In(loc)
+  return time.Unix(unix, 0).In(loc)
 }
 
 func sin(degrees float64) float64 {
