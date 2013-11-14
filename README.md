@@ -3,8 +3,7 @@ sunrise
 
 Calculates sunrise and sunset times
 
-This is a draft API and should be treated as such. It may change in
-incompatible ways.
+This API is now stable.
 
 ## Using
 
