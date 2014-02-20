@@ -96,6 +96,12 @@ func asin(x float64) float64 {
 }
 
 func acos(x float64) float64 {
+  if x >= 1.0 {
+    return 0.0
+  }
+  if x <= -1.0 {
+    return 180.0
+  }
   return math.Acos(x) * 180.0 / math.Pi
 }
 
