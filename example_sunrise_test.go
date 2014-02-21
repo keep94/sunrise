@@ -22,7 +22,7 @@ func ExampleSunrise() {
   // Coordinates of LA are 34.05N 118.25W
   s.Around(34.05, -118.25, startTime)
 
-  if (s.Sunrise().Before(startTime)) {
+  for s.Sunrise().Before(startTime) {
     s.AddDays(1)
   }
 

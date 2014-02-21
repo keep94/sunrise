@@ -31,11 +31,12 @@ type Sunrise struct {
 }
 
 // Around computes the sunrise and sunset times for latitude and longitude
-// around currentTime. The computed sunrise will be no earlier than 24
-// hours before currentTime and the computed sunset will be no later than
-// 24 hours after currentTime. The computed sunset is no more than 24 hours
-// after the current sunrise. The latitude is positive for north and negative
-// for south. Longitude is positive for east and negative for west.
+// around currentTime. Generally, the computed sunrise will be no earlier
+// than 24 hours before currentTime and the computed sunset will be no later
+// than 24 hours after currentTime. However, these differences may exceed 24
+// hours on days with more than 23 hours of daylight.
+// The latitude is positive for north and negative for south. Longitude is
+// positive for east and negative for west.
 func (s *Sunrise) Around(latitude, longitude float64, currentTime time.Time) {
   s.location = currentTime.Location()
   s.sinLat = sin(latitude)
