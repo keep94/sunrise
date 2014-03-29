@@ -15,5 +15,5 @@ This API is now stable.
 
 ## Online Documentation
 
-Online documentation is available [here](http://go.pkgdoc.org/github.com/keep94/sunrise).
+Online documentation is available [here](http://godoc.org/github.com/keep94/sunrise).
 
