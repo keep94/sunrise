@@ -20,6 +20,52 @@ const (
   uepoch = int64(946728000.0)
 )
 
+// Phase indicates day or night. Phase is draft API and is subject to change.
+type Phase int
+
+const (
+  Day Phase = iota
+  Night
+)
+
+// DayOrNight returns whether currentTime is day or night at the given
+// location. start and end are the start and end of the current day or night.
+// start and end are in the same timezone as currentTime.
+// Latitude is postive for north and negative for south. Longitude is
+// positive for east and negative for west.
+// DayOrNight is draft API and is subject to change.
+func DayOrNight(latitude, longitude float64, currentTime time.Time) (
+    dayOrNight Phase, start, end time.Time) {
+  var s Sunrise
+  s.Around(latitude, longitude, currentTime)
+  start = s.Sunrise()
+  end = s.Sunset()
+  // It is day time if we are in between sunrise and sunset
+  if !currentTime.Before(start) && currentTime.Before(end) {
+    return Day, start, end
+  }
+  // currentTime is after sunset of current day
+  if !currentTime.Before(end) {
+    s.AddDays(1)
+    start = end
+    end = s.Sunrise()
+    // Edge case for 24 hour daylight
+    if !currentTime.Before(end) {
+      return Day, end, s.Sunset()
+    }
+    return Night, start, end
+  }
+  // currentTime is before sunrise of current day
+  s.AddDays(-1)
+  end = start
+  start = s.Sunset()
+  // Edge case for 24 hour daylight
+  if currentTime.Before(start) {
+    return Day, s.Sunrise(), start
+  }
+  return Night, start, end
+}
+
 // Sunrise gives sunrise and sunset times.
 type Sunrise struct {
   location *time.Location
