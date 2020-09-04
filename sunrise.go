@@ -20,7 +20,7 @@ const (
 	uepoch = int64(946728000.0)
 )
 
-// Phase indicates day or night. Phase is draft API and is subject to change.
+// Phase indicates day or night.
 type Phase int
 
 const (
@@ -33,7 +33,6 @@ const (
 // start and end are in the same timezone as currentTime.
 // Latitude is postive for north and negative for south. Longitude is
 // positive for east and negative for west.
-// DayOrNight is draft API and is subject to change.
 func DayOrNight(latitude, longitude float64, currentTime time.Time) (
 	dayOrNight Phase, start, end time.Time) {
 	var s Sunrise
